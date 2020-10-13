@@ -1,0 +1,162 @@
+
+
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>Hello, /r/reptime</title>
+      <style>
+         body { background: #111; }
+      </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.2.0/fabric.min.js"></script>
+   </head>
+   <body>
+      <input type="file" id="imgLoader" style="position: absolute; z-index: 999999; top: 5px; left: 5px;">
+      <div id="Cross">
+         <div class="canvas-container">
+            <canvas id="c" width="900" height="900"></canvas>
+            <script>
+               (function () {
+               	canvas = document.getElementById('c');
+               	ctx = canvas.getContext("2d");
+               	
+               	canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+               	canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+               	WIDTH	= canvas.width;
+               	HEIGHT	= canvas.height;
+               	
+               	clearScreen();
+               })();
+               
+               function resizeCanvas() {
+               	canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+               	canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+               	
+               	WIDTH = canvas.width;
+               	HEIGHT = canvas.height;
+               	
+               	clearScreen();
+               }
+               
+            </script>   
+         </div>
+         <a id="download" style="position: absolute; top: 5px; right: 5px; cursor:pointer;" class="text-primary">Save image</a>
+      </div>
+      <script>
+         //Image Edit
+         var canvas = new fabric.Canvas('c', {
+         preserveObjectStacking: true
+         });
+         canvas.setOverlayImage('cross.svg', canvas.renderAll.bind(canvas), {
+         // Needed to position overlayImage at 0/0
+         originX: 'center',
+         originY: 'center',
+         left: canvas.getWidth() /2,
+         top: canvas.getHeight() /2,
+         
+         });
+         
+         
+         
+      </script>
+      <script>
+         document.getElementById('imgLoader').onchange = function handleImage(e) {
+         var reader = new FileReader();
+           reader.onload = function (event){
+             var imgObj = new Image();
+             imgObj.src = event.target.result;
+             imgObj.onload = function () {
+               var image = new fabric.Image(imgObj);
+               image.set({
+                 angle: 0,
+                     padding: 10,
+                     cornersize:10,
+                     opacity: 0.80,
+         
+               });
+               image.scaleToWidth(500);
+               canvas.add(image);
+               canvas.sendToBack(image);
+               canvas.renderAll();
+             
+             }
+           }
+           reader.readAsDataURL(e.target.files[0]);
+         }
+               
+      </script>
+      <script>
+         var imageSaver = document.getElementById('download');
+         imageSaver.addEventListener('click', saveImage, false);
+         canvas.selection = false;
+         function saveImage(e) {
+             this.href = canvas.toDataURL({
+                 format: 'jpg',
+                 quality: 0.8
+             });
+             this.download = 'QC_lines.jpg'
+         }
+         
+               
+      </script><script>
+         var rect = new fabric.Rect({
+                 left: -10000,
+                 top: 50,
+                 width: 30000,
+                 height: 2,
+                 lockMovementX: true,
+                 lockScalingX: true,
+                 lockScalingY: true,
+                 lockRotation: true,
+                 fill: '#34eb9e',
+         
+             });
+             
+         var rect2 = new fabric.Rect({
+                 left: 50,
+                 top: -10000,
+                 width: 2,
+                 height: 30000,   
+                 fill: '#34eb9e',
+                 lockMovementY: true,
+                 lockScalingX: true,
+                 lockScalingY: true,
+                 lockRotation: true,
+         
+             });
+         
+         rect2.setControlsVisibility({
+             bl: false,
+             br: false,
+             tl: false,
+             tr: false,
+             mt: false,
+             mb: false,
+         });
+         
+         rect.setControlsVisibility({
+             bl: false,
+             br: false,
+             tl: false,
+             tr: false,
+             mt: false,
+             mb: false,
+         });
+         
+         canvas.add(rect);
+         canvas.add(rect2);
+         canvas.setActiveObject(rect);
+         
+               
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+   </body>
+</html>
+
